@@ -1,7 +1,7 @@
 CREATE TABLE "bus" (
   "id" bigserial PRIMARY KEY,
-  "bus_number" varchar(6) NOT NULL,
-  "bus_plate_number" varchar(8) NOT NULL,
+  "bus_number" varchar(6) NOT NULL UNIQUE,
+  "bus_plate_number" varchar(8) NOT NULL UNIQUE,
   "capacity" int NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now())
@@ -19,7 +19,7 @@ CREATE TABLE "passenger" (
 CREATE TABLE "driver" (
   "id" bigserial PRIMARY KEY,
   "full_name" varchar(50) NOT NULL,
-  "kimlik_number" varchar(15) NOT NULL,
+  "kimlik_number" varchar(15) NOT NULL UNIQUE,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),
   "password" varchar(30) NOT NULL
@@ -27,8 +27,8 @@ CREATE TABLE "driver" (
 
 CREATE TABLE "schedule" (
   "id" bigserial PRIMARY KEY,
-  "bus_id" bigint,
-  "driver_id" bigint,
+  "bus_id" bigint NOT NULL,
+  "driver_id" bigint NOT NULL,
   "starting_point" varchar(50) NOT NULL,
   "destination" varchar(50) NOT NULL,
   "schedule_date" date NOT NULL,
@@ -41,8 +41,8 @@ CREATE TABLE "schedule" (
 );
 
 CREATE TABLE "schedule_passenger" (
-  "passenger_id" bigserial,
-  "schedule_id" bigserial,
+  "passenger_id" bigserial NOT NULL,
+  "schedule_id" bigserial NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   PRIMARY KEY ("passenger_id", "schedule_id")
 );
@@ -51,7 +51,7 @@ CREATE TABLE "payment" (
   "id" bigserial PRIMARY KEY,
   "amount_paid" float NOT NULL,
   "payment_date" timestamptz NOT NULL,
-  "passenger_id" bigint,
+  "passenger_id" bigint NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 

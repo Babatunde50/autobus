@@ -4,5 +4,10 @@ migrateup:
 migratedown: 
 	 migrate -path db/migrations -database "postgresql://postgres:postgres@localhost:5432/autobus?sslmode=disable" -verbose down 
 
+sqlc:
+	sqlc generate
 
-.PHONY: migratedown migrateup
+test: 
+	go test -v -cover ./...
+
+.PHONY: migratedown migrateup sqlc test
